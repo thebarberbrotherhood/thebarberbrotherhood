@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 const learningPoints = [
   "Recognise when a client may be struggling",
@@ -27,6 +29,32 @@ const trustPoints = [
 ];
 
 export default function BarberBrotherhood() {
+  const [heroSubmitted, setHeroSubmitted] = useState(false);
+  const [ctaSubmitted, setCtaSubmitted] = useState(false);
+
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+    setSubmitted: (value: boolean) => void
+  ) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const response = await fetch("https://formspree.io/f/xjgparpg", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (response.ok) {
+      form.reset();
+      setSubmitted(true);
+    }
+  };
+
   return (
     <div className="bg-neutral-950 text-white font-sans">
       {/* HERO */}
@@ -81,28 +109,38 @@ export default function BarberBrotherhood() {
           </p>
 
           <div className="mt-8 w-full max-w-2xl rounded-[1.75rem] border border-blue-500/30 bg-blue-950/30 p-4 backdrop-blur">
-            <form
-              action="https://formspree.io/f/xjgparpg"
-              method="POST"
-              className="flex flex-col gap-3 sm:flex-row"
-            >
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter your email for early access"
-                required
-                className="h-12 flex-1 rounded-xl border border-white/10 bg-black/30 px-4 text-white placeholder:text-neutral-500 outline-none transition focus:border-blue-400"
-              />
-              <button
-                type="submit"
-                className="h-12 rounded-xl bg-blue-600 px-6 font-semibold text-white transition hover:bg-blue-700"
-              >
-                Register Interest
-              </button>
-            </form>
-            <p className="mt-3 text-sm text-neutral-400">
-              First intake launching soon. Join the list to hear when training opens.
-            </p>
+            {heroSubmitted ? (
+              <div className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-5 py-4 text-left text-white">
+                <p className="text-base font-semibold">You’re on the list.</p>
+                <p className="mt-1 text-sm text-white/80">
+                  Thanks for registering your interest. We’ll email you when early access opens.
+                </p>
+              </div>
+            ) : (
+              <>
+                <form
+                  onSubmit={(event) => handleSubmit(event, setHeroSubmitted)}
+                  className="flex flex-col gap-3 sm:flex-row"
+                >
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email for early access"
+                    required
+                    className="h-12 flex-1 rounded-xl border border-white/10 bg-black/30 px-4 text-white placeholder:text-neutral-500 outline-none transition focus:border-blue-400"
+                  />
+                  <button
+                    type="submit"
+                    className="h-12 rounded-xl bg-blue-600 px-6 font-semibold text-white transition hover:bg-blue-700"
+                  >
+                    Register Interest
+                  </button>
+                </form>
+                <p className="mt-3 text-sm text-neutral-400">
+                  First intake launching soon. Join the list to hear when training opens.
+                </p>
+              </>
+            )}
           </div>
 
           <div className="mt-16 grid w-full max-w-5xl gap-4 md:grid-cols-3">
@@ -232,25 +270,33 @@ export default function BarberBrotherhood() {
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-neutral-300">
             We’re building the programme now. Register your interest to get launch updates, early access, and first notice when training officially opens.
           </p>
-          <form
-            action="https://formspree.io/f/xjgparpg"
-            method="POST"
-            className="mx-auto mt-10 flex max-w-2xl flex-col gap-3 sm:flex-row"
-          >
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              required
-              className="h-14 flex-1 rounded-2xl border border-white/10 bg-black/30 px-5 text-white placeholder:text-neutral-500 outline-none transition focus:border-blue-400"
-            />
-            <button
-              type="submit"
-              className="h-14 rounded-2xl bg-blue-600 px-8 text-lg font-semibold text-white transition hover:bg-blue-700"
+          {ctaSubmitted ? (
+            <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-6 py-5 text-left text-white">
+              <p className="text-lg font-semibold">Thanks — you’re on the list.</p>
+              <p className="mt-2 text-sm text-white/80">
+                We’ll send you an update as soon as early access opens.
+              </p>
+            </div>
+          ) : (
+            <form
+              onSubmit={(event) => handleSubmit(event, setCtaSubmitted)}
+              className="mx-auto mt-10 flex max-w-2xl flex-col gap-3 sm:flex-row"
             >
-              Register Interest
-            </button>
-          </form>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                className="h-14 flex-1 rounded-2xl border border-white/10 bg-black/30 px-5 text-white placeholder:text-neutral-500 outline-none transition focus:border-blue-400"
+              />
+              <button
+                type="submit"
+                className="h-14 rounded-2xl bg-blue-600 px-8 text-lg font-semibold text-white transition hover:bg-blue-700"
+              >
+                Register Interest
+              </button>
+            </form>
+          )}
           <p className="mt-4 text-sm text-neutral-400">
             No spam. Just launch updates and first access when the course is ready.
           </p>
