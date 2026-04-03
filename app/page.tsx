@@ -34,7 +34,7 @@ export default function BarberBrotherhood() {
         className="relative overflow-hidden border-b border-white/10"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80')",
+            "url('https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1600&q=80')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           filter: "brightness(0.92)",
