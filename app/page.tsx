@@ -3,13 +3,13 @@
 import React, { useState } from "react";
 
 const learningPoints = [
-  "Recognise when a client may be struggling",
-  "Build a better understanding of mental health and emotional wellbeing",
-  "Respond calmly and appropriately",
-  "Hold safe, respectful conversations",
-  "Maintain professional boundaries",
-  "Signpost to support services",
-  "Understand what not to do",
+  "Understand the emotional pressure that can come with life behind the chair",
+  "Recognise early signs of stress, overload, and burnout before they take hold",
+  "Build healthier boundaries around client conversations",
+  "Learn how to listen without carrying every story home with you",
+  "Develop practical habits to stay sharp, present, and mentally well",
+  "Respond calmly and appropriately when conversations go deeper",
+  "Know when to hold space, when to step back, and when to signpost support",
 ];
 
 const memberBenefits = [
@@ -18,14 +18,14 @@ const memberBenefits = [
   "12 Month Membership",
   "Featured on the Brotherhood Map & Barber Directory",
   "Part of the Barber Brotherhood Community",
-  "Recognised as a Safe Space for Conversation",
-  "Contributing to Early Prevention in Men's Mental Health",
+  "Recognised as a Barber-First Safe Space",
+  "Supporting Sharper Barbers and Stronger Conversations",
 ];
 
 const trustPoints = [
-  "Built for barbers, not therapists",
-  "Created to bridge the gap to support",
-  "Designed to strengthen trust in the chair",
+  "Built for the person behind the chair",
+  "Stay sharp — not burnt out",
+  "Real barber tools for real barber conversations",
 ];
 
 export default function BarberBrotherhood() {
@@ -68,7 +68,6 @@ export default function BarberBrotherhood() {
           filter: "brightness(0.92)",
         }}
       >
-        {/* Dark overlay + colour tone */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.14),_transparent_42%),radial-gradient(circle_at_bottom_right,_rgba(220,38,38,0.12),_transparent_38%),linear-gradient(to_bottom,_rgba(10,10,10,0.58),_rgba(0,0,0,0.72))]" />
         <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:44px_44px]" />
         <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 py-24 text-center">
@@ -94,15 +93,15 @@ export default function BarberBrotherhood() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-xl text-white md:text-2xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-            More than a haircut. A place to be heard.
+            Supporting Sharper Barbers and Stronger Conversations
           </p>
 
           <p className="mt-6 max-w-3xl text-base leading-8 text-white md:text-lg drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-            We’re currently building the first Barber Brotherhood training programme. Register your interest to be first to hear when early access opens and be part of the first intake.
+            We’re building the first Barber Brotherhood training programme designed to protect barber mental wellbeing, prevent burnout, and help barbers stay sharp through the pressure of life behind the chair — creating stronger, healthier conversations every day.
           </p>
 
           <p className="mt-10 text-sm text-white/85 drop-shadow-[0_2px_8px_rgba(0,0,0,0.75)]">
-            <span className="font-semibold tracking-wide">CONTACT US</span> directly at 
+            <span className="font-semibold tracking-wide">CONTACT US</span> directly at
             <a href="mailto:hello@thebarberbrotherhood.com" className="text-blue-400 underline ml-1">
               hello@thebarberbrotherhood.com
             </a>
@@ -174,10 +173,10 @@ export default function BarberBrotherhood() {
               Why This Matters
             </p>
             <h2 className="text-3xl font-bold md:text-5xl text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-              The barber chair has always been more than a service.
+              Protect the person behind the chair.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
-              For many men, it is one of the few spaces where conversation happens naturally. When those conversations go deeper, barbers should feel equipped — not overwhelmed. The Barber Brotherhood gives structure, confidence, and clear boundaries for handling those moments well.
+              Barbering is more than a service. It is long days, constant interaction, emotional exposure, and often being the person clients naturally open up to. Over time, that pressure can build quietly. The Barber Brotherhood exists to help barbers stay sharp, protect their wellbeing, and avoid carrying every conversation long after the haircut ends.
             </p>
           </div>
 
@@ -186,7 +185,7 @@ export default function BarberBrotherhood() {
               The Mission
             </p>
             <p className="text-xl font-semibold leading-8 text-white">
-              To help barber shops become safer spaces for conversation, while encouraging men toward the right professional support when they need it.
+              To strengthen barber mental wellbeing, prevent burnout, and help create sharper, healthier conversations behind the chair.
             </p>
           </div>
         </div>
@@ -200,7 +199,7 @@ export default function BarberBrotherhood() {
           </p>
           <h2 className="text-3xl font-bold md:text-5xl">What You’ll Learn</h2>
           <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-neutral-400">
-            Practical, real-world guidance for the conversations barbers are already having every day. The full programme is currently in development, and early-access members will be first to hear when the first intake opens.
+            Practical, barber-inspired guidance designed to keep the barber well first. The programme helps you protect your own mental wellbeing, prevent burnout, and develop healthier ways to handle the conversations that naturally happen in the chair.
           </p>
 
           <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -227,7 +226,7 @@ export default function BarberBrotherhood() {
           </p>
           <h2 className="text-3xl font-bold md:text-5xl">What You Receive</h2>
           <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-neutral-400">
-            Recognition, visibility, and a clear sign that your chair is part of something bigger — including being discoverable by clients through the Brotherhood map and directory.
+            Recognition, visibility, and a clear sign that your chair is part of something bigger — a barber-first movement focused on resilience, wellbeing, and stronger conversations.
           </p>
 
           <div className="mt-14 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
@@ -237,7 +236,7 @@ export default function BarberBrotherhood() {
               </p>
               <h3 className="text-2xl font-bold text-white">What membership really means</h3>
               <p className="mt-5 text-lg leading-8 text-neutral-300">
-                The Barber Brotherhood is about more than training alone. It is about being recognised as part of a trusted community of barbers helping create safer spaces for conversation, visibility, and earlier support.
+                The Barber Brotherhood is about more than training alone. It is about being recognised as part of a trusted community of barbers learning how to protect their own wellbeing, stay sharp under pressure, and create better conversations without carrying everything alone.
               </p>
             </div>
 
@@ -265,10 +264,10 @@ export default function BarberBrotherhood() {
             Early Access
           </p>
           <h2 className="text-3xl font-bold md:text-5xl">
-            Be part of the first Brotherhood intake.
+            Stay sharp with the Brotherhood.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-neutral-300">
-            We’re building the programme now. Register your interest to get launch updates, early access, and first notice when training officially opens.
+            We’re building the programme now. Register your interest to get launch updates, early access, and first notice when Barber Brotherhood training opens.
           </p>
           {ctaSubmitted ? (
             <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-6 py-5 text-left text-white">
@@ -301,7 +300,7 @@ export default function BarberBrotherhood() {
             No spam. Just launch updates and first access when the course is ready.
           </p>
           <p className="mt-2 text-sm text-neutral-400">
-            Prefer email? Contact us at 
+            Prefer email? Contact us at
             <a href="mailto:hello@thebarberbrotherhood.com" className="text-blue-400 underline ml-1">
               hello@thebarberbrotherhood.com
             </a>
