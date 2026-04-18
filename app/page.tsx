@@ -28,6 +28,29 @@ const trustPoints = [
   "Real barber tools for real barber conversations",
 ];
 
+const flowSections = [
+  {
+    title: "1. The Welcome",
+    text: "Creating a calm, comfortable start where trust can build naturally.",
+  },
+  {
+    title: "2. The Opening",
+    text: "Allowing conversation to begin in an easy, unforced way during the service.",
+  },
+  {
+    title: "3. The Moment",
+    text: "Recognising when something deeper is being shared and responding with care.",
+  },
+  {
+    title: "4. The Balance",
+    text: "Holding the conversation safely while keeping boundaries and protecting yourself.",
+  },
+  {
+    title: "5. The Close",
+    text: "Bringing the interaction to a natural end without carrying it long after the haircut.",
+  },
+];
+
 export default function BarberBrotherhood() {
   const [heroSubmitted, setHeroSubmitted] = useState(false);
   const [ctaSubmitted, setCtaSubmitted] = useState(false);
@@ -102,7 +125,10 @@ export default function BarberBrotherhood() {
 
           <p className="mt-10 text-sm text-white/85 drop-shadow-[0_2px_8px_rgba(0,0,0,0.75)]">
             <span className="font-semibold tracking-wide">CONTACT US</span> directly at
-            <a href="mailto:hello@thebarberbrotherhood.com" className="text-blue-400 underline ml-1">
+            <a
+              href="mailto:hello@thebarberbrotherhood.com"
+              className="text-blue-400 underline ml-1"
+            >
               hello@thebarberbrotherhood.com
             </a>
           </p>
@@ -218,6 +244,59 @@ export default function BarberBrotherhood() {
         </div>
       </section>
 
+      {/* HOW IT WORKS */}
+      <section className="bg-gradient-to-b from-neutral-950 to-neutral-900 px-6 py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.28em] text-blue-300">
+              How It Works
+            </p>
+            <h2 className="text-3xl font-bold md:text-5xl">
+              A conversation flow built around the natural rhythm of a haircut
+            </h2>
+            <p className="mx-auto mt-5 max-w-4xl text-lg leading-8 text-neutral-400">
+              The Barber Brotherhood Method is designed to feel natural in real barbering environments — not scripted, forced, or clinical. The training first supports the mental wellbeing of the barber, then introduces a 5-part conversation flow that follows the rhythm of the service itself.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+            {flowSections.map((section, i) => (
+              <div
+                key={i}
+                className="rounded-[1.75rem] border border-white/10 bg-neutral-900 p-6 shadow-lg transition hover:-translate-y-1 hover:border-blue-400/50 hover:bg-neutral-800"
+              >
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-blue-300">
+                  {section.title}
+                </p>
+                <p className="text-base leading-7 text-neutral-300">
+                  {section.text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="rounded-[2rem] border border-blue-500/25 bg-blue-950/20 p-8">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-blue-300">
+                Barber First
+              </p>
+              <p className="text-lg leading-8 text-neutral-200">
+                This method starts by helping barbers protect their own wellbeing — building awareness around stress, emotional load, boundaries, and burnout prevention before focusing on client conversations.
+              </p>
+            </div>
+
+            <div className="rounded-[2rem] border border-red-500/25 bg-red-950/20 p-8">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-red-300">
+                Early Prevention
+              </p>
+              <p className="text-lg leading-8 text-neutral-200">
+                By supporting natural, everyday conversations in trusted spaces, the method aims to create room for men to talk before problems escalate — while ensuring the barber remains supported and does not carry the full emotional weight alone.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* WHAT YOU GET */}
       <section className="bg-gradient-to-b from-neutral-900 to-neutral-950 px-6 py-24">
         <div className="mx-auto max-w-6xl text-center">
@@ -301,7 +380,10 @@ export default function BarberBrotherhood() {
           </p>
           <p className="mt-2 text-sm text-neutral-400">
             Prefer email? Contact us at
-            <a href="mailto:hello@thebarberbrotherhood.com" className="text-blue-400 underline ml-1">
+            <a
+              href="mailto:hello@thebarberbrotherhood.com"
+              className="text-blue-400 underline ml-1"
+            >
               hello@thebarberbrotherhood.com
             </a>
           </p>
