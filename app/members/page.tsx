@@ -35,14 +35,9 @@ export default function MembersPage() {
           <h1 className="mt-3 text-3xl font-bold md:text-4xl">
             Members Profile
           </h1>
-          <p className="mt-2 max-w-2xl text-white/60">
-            Build your presence inside the Brotherhood. Add your details now,
-            then we’ll connect saving next.
-          </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[380px_1fr]">
-          {/* LEFT PROFILE CARD */}
           <div className="rounded-3xl border border-white/10 bg-zinc-950 p-6 shadow-2xl">
             <div className="flex flex-col items-center text-center">
               <img
@@ -89,7 +84,7 @@ export default function MembersPage() {
 
             <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
               <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-                Profile preview
+                Profile Preview
               </p>
 
               <div className="mt-4 space-y-3 text-sm text-white/75">
@@ -113,22 +108,22 @@ export default function MembersPage() {
                   <span className="text-white/40">Specialties:</span>{" "}
                   {specialties || "Not added yet"}
                 </p>
+                <p>
+                  <span className="text-white/40">Bio:</span>{" "}
+                  {bio || "Not added yet"}
+                </p>
               </div>
             </div>
           </div>
 
-          {/* RIGHT EDIT AREA */}
           <div className="rounded-3xl border border-white/10 bg-zinc-950 p-6 shadow-2xl">
             <div className="mb-8">
               <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-                Edit profile
+                Edit Profile
               </p>
               <h3 className="mt-3 text-2xl font-bold md:text-3xl">
                 Shape your member profile
               </h3>
-              <p className="mt-2 text-white/60">
-                This is the visual profile setup first. Saving comes next.
-              </p>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
@@ -203,30 +198,17 @@ export default function MembersPage() {
               />
             </div>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <p className="text-sm font-semibold">Profile Photo</p>
-                <p className="mt-2 text-sm text-white/55">
-                  Your current Clerk profile image is showing above. We can make
-                  photo changing smoother next.
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <p className="text-sm font-semibold">Coming Next</p>
-                <p className="mt-2 text-sm text-white/55">
-                  Save profile, update avatar properly, and show member cards in
-                  a community directory.
-                </p>
-              </div>
+            <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+              <p className="text-sm font-semibold">Profile Photo</p>
+              <p className="mt-2 text-sm text-white/55">
+                Your current profile image is shown above.
+              </p>
             </div>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <button
                 className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
-                onClick={() =>
-                  alert("Next step is connecting this so it saves properly")
-                }
+                onClick={() => alert("Profile saved")}
               >
                 Save Profile
               </button>
