@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     throw new Error("Missing CLERK_WEBHOOK_SECRET");
   }
 
-  const headerPayload = headers();
+  const headerPayload = await headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
@@ -34,14 +34,11 @@ export async function POST(req: Request) {
     return new Response("Error verifying webhook", { status: 400 });
   }
 
-  // 🎯 This fires when a new user signs up
   if (evt.type === "user.created") {
-    const email = evt.data.email_addresses[0]?.email_address;
-    const name = evt.data.first_name || "No name";
+    const email = evt.data.email_addresses?.[0]?.email_address;
+    const name = `${evt.data.first_name || ""} ${evt.data.last_name || ""}`.trim();
 
     console.log("🔥 NEW USER:", { name, email });
-
-    // 👉 For now we log it (next step = email / Google Sheets)
   }
 
   return new Response("OK", { status: 200 });
