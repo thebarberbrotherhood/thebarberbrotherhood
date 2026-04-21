@@ -1,63 +1,66 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
+import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import { useState } from "react";
 
 export default function MembersPage() {
-  const { user } = useUser();
-
+  const { user, isLoaded } = useUser();
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
 
-  if (!user) return <p className="text-white p-10">Loading...</p>;
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-black p-10 text-white">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <RedirectToSignIn />;
+  }
 
   return (
-    <div className="min-h-screen bg-black text-white p-8 flex justify-center">
-      <div className="w-full max-w-md bg-zinc-900 rounded-2xl p-6 shadow-lg border border-zinc-800">
-
-        {/* Profile Image */}
-        <div className="flex justify-center mb-4">
+    <div className="min-h-screen bg-black px-6 py-16 text-white">
+      <div className="mx-auto w-full max-w-md rounded-2xl border border-white/10 bg-zinc-900 p-6 shadow-lg">
+        <div className="mb-6 flex flex-col items-center text-center">
           <img
             src={user.imageUrl}
-            alt="profile"
-            className="w-24 h-24 rounded-full border-2 border-blue-500"
+            alt="Profile"
+            className="mb-4 h-24 w-24 rounded-full border-2 border-blue-500 object-cover"
           />
+
+          <h1 className="text-2xl font-bold">
+            {user.fullName || "New Member"}
+          </h1>
+
+          <p className="mt-1 text-sm text-white/60">
+            {user.primaryEmailAddress?.emailAddress}
+          </p>
         </div>
 
-        {/* Name */}
-        <h2 className="text-2xl font-bold text-center mb-1">
-          {user.fullName || "New Member"}
-        </h2>
-
-        {/* Email */}
-        <p className="text-sm text-gray-400 text-center mb-4">
-          {user.primaryEmailAddress?.emailAddress}
-        </p>
-
-        {/* Location */}
         <input
           placeholder="Your location (e.g. London)"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="w-full mb-3 p-2 rounded bg-black border border-zinc-700"
+          className="mb-3 w-full rounded-lg border border-zinc-700 bg-black p-3 text-white"
         />
 
-        {/* Bio */}
         <textarea
           placeholder="Tell people about yourself..."
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          className="w-full mb-4 p-2 rounded bg-black border border-zinc-700"
+          className="mb-4 min-h-[120px] w-full rounded-lg border border-zinc-700 bg-black p-3 text-white"
         />
 
-        {/* Save Button */}
         <button
-          className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-          onClick={() => alert("Saved (we’ll connect database next)")}
+          className="w-full rounded-lg bg-blue-600 py-3 font-semibold hover:bg-blue-700"
+          onClick={() =>
+            alert("Saved later — next step is wiring this up properly")
+          }
         >
           Save Profile
         </button>
-
       </div>
     </div>
   );
