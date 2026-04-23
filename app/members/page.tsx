@@ -208,7 +208,32 @@ export default function MembersPage() {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <button
                 className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
-                onClick={() => alert("Profile saved")}
+                onClick={async () => {
+                  const res = await fetch("/api/save-profile", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      clerk_user_id: user.id,
+                      email: user.primaryEmailAddress?.emailAddress,
+                      full_name: user.fullName,
+                      username,
+                      location,
+                      barber_shop: barberShop,
+                      specialties,
+                      instagram,
+                      bio,
+                      profile_image_url: user.imageUrl,
+                    }),
+                  });
+
+                  if (res.ok) {
+                    alert("Profile saved ✅");
+                  } else {
+                    alert("Something went wrong ❌");
+                  }
+                }}
               >
                 Save Profile
               </button>
