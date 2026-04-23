@@ -12,6 +12,7 @@ export default function MembersPage() {
   const [specialties, setSpecialties] = useState("");
   const [instagram, setInstagram] = useState("");
   const [bio, setBio] = useState("");
+  const [saving, setSaving] = useState(false);
 
   if (!isLoaded) {
     return (
@@ -207,35 +208,45 @@ export default function MembersPage() {
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <button
-                className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
+                className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
+                disabled={saving}
                 onClick={async () => {
-                  const res = await fetch("/api/save-profile", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      clerk_user_id: user.id,
-                      email: user.primaryEmailAddress?.emailAddress,
-                      full_name: user.fullName,
-                      username,
-                      location,
-                      barber_shop: barberShop,
-                      specialties,
-                      instagram,
-                      bio,
-                      profile_image_url: user.imageUrl,
-                    }),
-                  });
+                  try {
+                    setSaving(true);
 
-                  if (res.ok) {
-                    alert("Profile saved ✅");
-                  } else {
+                    const res = await fetch("/api/save-profile", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        clerk_user_id: user.id,
+                        email: user.primaryEmailAddress?.emailAddress,
+                        full_name: user.fullName,
+                        username,
+                        location,
+                        barber_shop: barberShop,
+                        specialties,
+                        instagram,
+                        bio,
+                        profile_image_url: user.imageUrl,
+                      }),
+                    });
+
+                    if (res.ok) {
+                      alert("Profile saved ✅");
+                    } else {
+                      alert("Something went wrong ❌");
+                    }
+                  } catch (error) {
                     alert("Something went wrong ❌");
+                    console.error(error);
+                  } finally {
+                    setSaving(false);
                   }
                 }}
               >
-                Save Profile
+                {saving ? "Saving..." : "Save Profile"}
               </button>
 
               <button
