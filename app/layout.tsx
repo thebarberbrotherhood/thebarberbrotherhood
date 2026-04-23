@@ -69,6 +69,12 @@ export default function RootLayout({
                     Membership
                   </Link>
                   <Link
+                    href="/sign-in"
+                    className="text-sm text-white/70 transition hover:text-white"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
                     href="/members"
                     className="text-sm text-white/70 transition hover:text-white"
                   >
@@ -109,8 +115,8 @@ export default function RootLayout({
 
                   <p className="max-w-xl text-sm leading-7 text-white/50">
                     Building a stronger barber community through membership,
-                    profile visibility, networking, opportunities, support,
-                    future sponsorship routes, and member-first perks.
+                    networking, opportunities, sponsorship potential, and
+                    member-first perks.
                   </p>
                 </div>
 
@@ -123,6 +129,9 @@ export default function RootLayout({
                     className="transition hover:text-white"
                   >
                     Membership
+                  </Link>
+                  <Link href="/sign-in" className="transition hover:text-white">
+                    Sign In
                   </Link>
                   <Link href="/members" className="transition hover:text-white">
                     Members Area
