@@ -22,7 +22,7 @@ export async function POST(req: Request) {
       profile_image_url,
     } = data;
 
-    const insertResult = await pool.query(
+    await pool.query(
       `
       INSERT INTO profiles (
         clerk_user_id,
@@ -49,7 +49,6 @@ export async function POST(req: Request) {
         bio = EXCLUDED.bio,
         profile_image_url = EXCLUDED.profile_image_url,
         updated_at = CURRENT_TIMESTAMP
-      RETURNING *
       `,
       [
         clerk_user_id,
@@ -65,14 +64,7 @@ export async function POST(req: Request) {
       ]
     );
 
-    const countResult = await pool.query(`SELECT COUNT(*) FROM profiles`);
-
-    return NextResponse.json({
-      success: true,
-      insertedRow: insertResult.rows[0],
-      totalProfiles: countResult.rows[0].count,
-      dbHost: process.env.DATABASE_URL?.match(/@([^/]+)/)?.[1] ?? "no-host",
-    });
+    return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
       {
