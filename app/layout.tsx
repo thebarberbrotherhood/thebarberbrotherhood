@@ -71,6 +71,14 @@ export default function RootLayout({
                     Membership
                   </Link>
 
+                  {/* ADDED THIS */}
+                  <Link
+                    href="/brotherhood"
+                    className="text-sm text-white/70 transition hover:text-white"
+                  >
+                    Brotherhood
+                  </Link>
+
                   <Link
                     href="/members"
                     className="text-sm text-white/70 transition hover:text-white"
@@ -123,6 +131,14 @@ export default function RootLayout({
                     className="transition hover:text-white"
                   >
                     Membership
+                  </Link>
+
+                  {/* ADDED THIS */}
+                  <Link
+                    href="/brotherhood"
+                    className="transition hover:text-white"
+                  >
+                    Brotherhood
                   </Link>
 
                   <Link href="/members" className="transition hover:text-white">
