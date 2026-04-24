@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
+import AuthButtons from "./AuthButtons";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -62,30 +63,22 @@ export default function RootLayout({
                   >
                     Home
                   </Link>
+
                   <Link
                     href="/membership"
                     className="text-sm text-white/70 transition hover:text-white"
                   >
                     Membership
                   </Link>
-                  <Link
-                    href="/sign-in"
-                    className="text-sm text-white/70 transition hover:text-white"
-                  >
-                    Sign In
-                  </Link>
+
                   <Link
                     href="/members"
                     className="text-sm text-white/70 transition hover:text-white"
                   >
                     Members
                   </Link>
-                  <Link
-                    href="/sign-up"
-                    className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black transition hover:opacity-90"
-                  >
-                    Join Now
-                  </Link>
+
+                  <AuthButtons />
                 </nav>
               </div>
             </header>
@@ -124,20 +117,16 @@ export default function RootLayout({
                   <Link href="/" className="transition hover:text-white">
                     Home
                   </Link>
+
                   <Link
                     href="/membership"
                     className="transition hover:text-white"
                   >
                     Membership
                   </Link>
-                  <Link href="/sign-in" className="transition hover:text-white">
-                    Sign In
-                  </Link>
+
                   <Link href="/members" className="transition hover:text-white">
                     Members Area
-                  </Link>
-                  <Link href="/sign-up" className="transition hover:text-white">
-                    Join Membership
                   </Link>
                 </div>
               </div>
