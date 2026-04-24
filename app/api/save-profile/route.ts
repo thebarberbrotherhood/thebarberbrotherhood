@@ -5,6 +5,35 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const clerk_user_id = searchParams.get("clerk_user_id");
+
+    if (!clerk_user_id) {
+      return NextResponse.json({ success: false, error: "Missing user id" }, { status: 400 });
+    }
+
+    const result = await pool.query(
+      `SELECT * FROM profiles WHERE clerk_user_id = $1 LIMIT 1`,
+      [clerk_user_id]
+    );
+
+    return NextResponse.json({
+      success: true,
+      profile: result.rows[0] || null,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const data = await req.json();

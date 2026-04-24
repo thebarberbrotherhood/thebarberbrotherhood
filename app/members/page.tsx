@@ -1,7 +1,7 @@
 "use client";
 
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function MembersPage() {
   const { user, isLoaded } = useUser();
@@ -13,8 +13,37 @@ export default function MembersPage() {
   const [instagram, setInstagram] = useState("");
   const [bio, setBio] = useState("");
   const [saving, setSaving] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(false);
 
-  if (!isLoaded) {
+  useEffect(() => {
+    async function loadProfile() {
+      if (!user?.id) return;
+
+      try {
+        setLoadingProfile(true);
+
+        const res = await fetch(`/api/save-profile?clerk_user_id=${user.id}`);
+        const data = await res.json();
+
+        if (data.success && data.profile) {
+          setUsername(data.profile.username || "");
+          setLocation(data.profile.location || "");
+          setBarberShop(data.profile.barber_shop || "");
+          setSpecialties(data.profile.specialties || "");
+          setInstagram(data.profile.instagram || "");
+          setBio(data.profile.bio || "");
+        }
+      } catch (error) {
+        console.error("Could not load profile", error);
+      } finally {
+        setLoadingProfile(false);
+      }
+    }
+
+    loadProfile();
+  }, [user?.id]);
+
+  if (!isLoaded || loadingProfile) {
     return (
       <div className="min-h-screen bg-black p-10 text-white">
         Loading...
@@ -89,30 +118,12 @@ export default function MembersPage() {
               </p>
 
               <div className="mt-4 space-y-3 text-sm text-white/75">
-                <p>
-                  <span className="text-white/40">Username:</span>{" "}
-                  {username || "Not added yet"}
-                </p>
-                <p>
-                  <span className="text-white/40">Location:</span>{" "}
-                  {location || "Not added yet"}
-                </p>
-                <p>
-                  <span className="text-white/40">Shop:</span>{" "}
-                  {barberShop || "Not added yet"}
-                </p>
-                <p>
-                  <span className="text-white/40">Instagram:</span>{" "}
-                  {instagram || "Not added yet"}
-                </p>
-                <p>
-                  <span className="text-white/40">Specialties:</span>{" "}
-                  {specialties || "Not added yet"}
-                </p>
-                <p>
-                  <span className="text-white/40">Bio:</span>{" "}
-                  {bio || "Not added yet"}
-                </p>
+                <p><span className="text-white/40">Username:</span> {username || "Not added yet"}</p>
+                <p><span className="text-white/40">Location:</span> {location || "Not added yet"}</p>
+                <p><span className="text-white/40">Shop:</span> {barberShop || "Not added yet"}</p>
+                <p><span className="text-white/40">Instagram:</span> {instagram || "Not added yet"}</p>
+                <p><span className="text-white/40">Specialties:</span> {specialties || "Not added yet"}</p>
+                <p><span className="text-white/40">Bio:</span> {bio || "Not added yet"}</p>
               </div>
             </div>
           </div>
@@ -128,141 +139,60 @@ export default function MembersPage() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm text-white/65">
-                  Username / Handle
-                </label>
-                <input
-                  placeholder="@barbername"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none transition focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm text-white/65">
-                  Location
-                </label>
-                <input
-                  placeholder="London, UK"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none transition focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm text-white/65">
-                  Barber Shop / Studio
-                </label>
-                <input
-                  placeholder="Your shop name"
-                  value={barberShop}
-                  onChange={(e) => setBarberShop(e.target.value)}
-                  className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none transition focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm text-white/65">
-                  Instagram
-                </label>
-                <input
-                  placeholder="@yourinstagram"
-                  value={instagram}
-                  onChange={(e) => setInstagram(e.target.value)}
-                  className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none transition focus:border-blue-500"
-                />
-              </div>
+              <input placeholder="@barbername" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
+              <input placeholder="London, UK" value={location} onChange={(e) => setLocation(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
+              <input placeholder="Your shop name" value={barberShop} onChange={(e) => setBarberShop(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
+              <input placeholder="@yourinstagram" value={instagram} onChange={(e) => setInstagram(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
             </div>
 
-            <div className="mt-4">
-              <label className="mb-2 block text-sm text-white/65">
-                Specialties
-              </label>
-              <input
-                placeholder="Fades, beard work, curls, education..."
-                value={specialties}
-                onChange={(e) => setSpecialties(e.target.value)}
-                className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none transition focus:border-blue-500"
-              />
-            </div>
+            <input
+              placeholder="Fades, beard work, curls, education..."
+              value={specialties}
+              onChange={(e) => setSpecialties(e.target.value)}
+              className="mt-4 w-full rounded-xl border border-zinc-800 bg-black p-3 text-white"
+            />
 
-            <div className="mt-4">
-              <label className="mb-2 block text-sm text-white/65">Bio</label>
-              <textarea
-                placeholder="Tell people about yourself, your style, your experience, and what you’re about..."
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                className="min-h-[180px] w-full rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none transition focus:border-blue-500"
-              />
-            </div>
+            <textarea
+              placeholder="Tell people about yourself..."
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              className="mt-4 min-h-[180px] w-full rounded-xl border border-zinc-800 bg-black p-3 text-white"
+            />
 
-            <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-              <p className="text-sm font-semibold">Profile Photo</p>
-              <p className="mt-2 text-sm text-white/55">
-                Your current profile image is shown above.
-              </p>
-            </div>
+            <button
+              className="mt-8 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+              disabled={saving}
+              onClick={async () => {
+                setSaving(true);
 
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <button
-                className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
-                disabled={saving}
-                onClick={async () => {
-                  try {
-                    setSaving(true);
+                const res = await fetch("/api/save-profile", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    clerk_user_id: user.id,
+                    email: user.primaryEmailAddress?.emailAddress,
+                    full_name: user.fullName,
+                    username,
+                    location,
+                    barber_shop: barberShop,
+                    specialties,
+                    instagram,
+                    bio,
+                    profile_image_url: user.imageUrl,
+                  }),
+                });
 
-                    const res = await fetch("/api/save-profile", {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        clerk_user_id: user.id,
-                        email: user.primaryEmailAddress?.emailAddress,
-                        full_name: user.fullName,
-                        username,
-                        location,
-                        barber_shop: barberShop,
-                        specialties,
-                        instagram,
-                        bio,
-                        profile_image_url: user.imageUrl,
-                      }),
-                    });
+                setSaving(false);
 
-                    if (res.ok) {
-                      alert("Profile saved ✅");
-                    } else {
-                      alert("Something went wrong ❌");
-                    }
-                  } catch (error) {
-                    alert("Something went wrong ❌");
-                    console.error(error);
-                  } finally {
-                    setSaving(false);
-                  }
-                }}
-              >
-                {saving ? "Saving..." : "Save Profile"}
-              </button>
-
-              <button
-                className="w-full rounded-xl border border-white/15 bg-white/[0.03] py-3 font-semibold text-white transition hover:bg-white/[0.06]"
-                onClick={() => {
-                  setUsername("");
-                  setLocation("");
-                  setBarberShop("");
-                  setSpecialties("");
-                  setInstagram("");
-                  setBio("");
-                }}
-              >
-                Clear Form
-              </button>
-            </div>
+                if (res.ok) {
+                  alert("Profile saved ✅");
+                } else {
+                  alert("Something went wrong ❌");
+                }
+              }}
+            >
+              {saving ? "Saving..." : "Save Profile"}
+            </button>
           </div>
         </div>
       </div>
