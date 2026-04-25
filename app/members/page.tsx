@@ -2,6 +2,7 @@
 
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import ImageUpload from "../components/ImageUpload";
 
 export default function MembersPage() {
   const { user, isLoaded } = useUser();
@@ -12,6 +13,7 @@ export default function MembersPage() {
   const [specialties, setSpecialties] = useState("");
   const [instagram, setInstagram] = useState("");
   const [bio, setBio] = useState("");
+  const [profileImage, setProfileImage] = useState("");
   const [saving, setSaving] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(false);
 
@@ -32,6 +34,7 @@ export default function MembersPage() {
           setSpecialties(data.profile.specialties || "");
           setInstagram(data.profile.instagram || "");
           setBio(data.profile.bio || "");
+          setProfileImage(data.profile.profile_image_url || "");
         }
       } catch (error) {
         console.error("Could not load profile", error);
@@ -44,11 +47,7 @@ export default function MembersPage() {
   }, [user?.id]);
 
   if (!isLoaded || loadingProfile) {
-    return (
-      <div className="min-h-screen bg-black p-10 text-white">
-        Loading...
-      </div>
-    );
+    return <div className="min-h-screen bg-black p-10 text-white">Loading...</div>;
   }
 
   if (!user) {
@@ -71,7 +70,7 @@ export default function MembersPage() {
           <div className="rounded-3xl border border-white/10 bg-zinc-950 p-6 shadow-2xl">
             <div className="flex flex-col items-center text-center">
               <img
-                src={user.imageUrl}
+                src={profileImage || user.imageUrl}
                 alt="Profile"
                 className="h-28 w-28 rounded-full border-2 border-blue-500 object-cover shadow-lg"
               />
@@ -138,6 +137,17 @@ export default function MembersPage() {
               </h3>
             </div>
 
+            <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+              <p className="text-sm font-semibold">Profile Photo</p>
+              <p className="mt-2 text-sm text-white/55">
+                Upload a profile image, then click Save Profile to store it.
+              </p>
+
+              <div className="mt-4">
+                <ImageUpload onUpload={(url) => setProfileImage(url)} />
+              </div>
+            </div>
+
             <div className="grid gap-4 md:grid-cols-2">
               <input placeholder="@barbername" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
               <input placeholder="London, UK" value={location} onChange={(e) => setLocation(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
@@ -178,7 +188,7 @@ export default function MembersPage() {
                     specialties,
                     instagram,
                     bio,
-                    profile_image_url: user.imageUrl,
+                    profile_image_url: profileImage || user.imageUrl,
                   }),
                 });
 
