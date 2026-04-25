@@ -76,7 +76,7 @@ export default function MembersPage() {
               />
 
               <h2 className="mt-5 text-3xl font-bold">
-                {user.fullName || "New Member"}
+                {username || user.fullName || "New Member"}
               </h2>
 
               <p className="mt-2 text-sm text-white/60">
