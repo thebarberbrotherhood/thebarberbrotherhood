@@ -16,6 +16,7 @@ export default function MembersPage() {
   const [profileImage, setProfileImage] = useState("");
   const [saving, setSaving] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     async function loadProfile() {
@@ -53,6 +54,9 @@ export default function MembersPage() {
   if (!user) {
     return <RedirectToSignIn />;
   }
+
+  const inputClass =
+    "w-full rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none transition focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-55";
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -128,81 +132,116 @@ export default function MembersPage() {
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-zinc-950 p-6 shadow-2xl">
-            <div className="mb-8">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-                Edit Profile
-              </p>
-              <h3 className="mt-3 text-2xl font-bold md:text-3xl">
-                Shape your member profile
-              </h3>
-            </div>
-
-            <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-              <p className="text-sm font-semibold">Profile Photo</p>
-              <p className="mt-2 text-sm text-white/55">
-                Upload a profile image, then click Save Profile to store it.
-              </p>
-
-              <div className="mt-4">
-                <ImageUpload onUpload={(url) => setProfileImage(url)} />
+            <div className="mb-8 flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+                  {editing ? "Edit Profile" : "Profile Details"}
+                </p>
+                <h3 className="mt-3 text-2xl font-bold md:text-3xl">
+                  {editing ? "Update your member profile" : "Your saved member profile"}
+                </h3>
               </div>
+
+              {!editing && (
+                <button
+                  onClick={() => setEditing(true)}
+                  className="rounded-xl border border-white/15 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-white hover:bg-white/[0.1]"
+                >
+                  Edit
+                </button>
+              )}
             </div>
+
+            {editing && (
+              <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                <p className="text-sm font-semibold">Profile Photo</p>
+                <p className="mt-2 text-sm text-white/55">
+                  Upload a profile image, then click Save Profile to store it.
+                </p>
+
+                <div className="mt-4">
+                  <ImageUpload onUpload={(url) => setProfileImage(url)} />
+                </div>
+              </div>
+            )}
 
             <div className="grid gap-4 md:grid-cols-2">
-              <input placeholder="@barbername" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
-              <input placeholder="London, UK" value={location} onChange={(e) => setLocation(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
-              <input placeholder="Your shop name" value={barberShop} onChange={(e) => setBarberShop(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
-              <input placeholder="@yourinstagram" value={instagram} onChange={(e) => setInstagram(e.target.value)} className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white" />
+              <input disabled={!editing} placeholder="@barbername" value={username} onChange={(e) => setUsername(e.target.value)} className={inputClass} />
+              <input disabled={!editing} placeholder="London, UK" value={location} onChange={(e) => setLocation(e.target.value)} className={inputClass} />
+              <input disabled={!editing} placeholder="Your shop name" value={barberShop} onChange={(e) => setBarberShop(e.target.value)} className={inputClass} />
+              <input disabled={!editing} placeholder="@yourinstagram" value={instagram} onChange={(e) => setInstagram(e.target.value)} className={inputClass} />
             </div>
 
             <input
+              disabled={!editing}
               placeholder="Fades, beard work, curls, education..."
               value={specialties}
               onChange={(e) => setSpecialties(e.target.value)}
-              className="mt-4 w-full rounded-xl border border-zinc-800 bg-black p-3 text-white"
+              className={`mt-4 ${inputClass}`}
             />
 
             <textarea
+              disabled={!editing}
               placeholder="Tell people about yourself..."
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              className="mt-4 min-h-[180px] w-full rounded-xl border border-zinc-800 bg-black p-3 text-white"
+              className={`mt-4 min-h-[180px] ${inputClass}`}
             />
 
-            <button
-              className="mt-8 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
-              disabled={saving}
-              onClick={async () => {
-                setSaving(true);
+            {editing ? (
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <button
+                  className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+                  disabled={saving}
+                  onClick={async () => {
+                    setSaving(true);
 
-                const res = await fetch("/api/save-profile", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    clerk_user_id: user.id,
-                    email: user.primaryEmailAddress?.emailAddress,
-                    full_name: user.fullName,
-                    username,
-                    location,
-                    barber_shop: barberShop,
-                    specialties,
-                    instagram,
-                    bio,
-                    profile_image_url: profileImage || user.imageUrl,
-                  }),
-                });
+                    const res = await fetch("/api/save-profile", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        clerk_user_id: user.id,
+                        email: user.primaryEmailAddress?.emailAddress,
+                        full_name: user.fullName,
+                        username,
+                        location,
+                        barber_shop: barberShop,
+                        specialties,
+                        instagram,
+                        bio,
+                        profile_image_url: profileImage || user.imageUrl,
+                      }),
+                    });
 
-                setSaving(false);
+                    setSaving(false);
 
-                if (res.ok) {
-                  alert("Profile saved ✅");
-                } else {
-                  alert("Something went wrong ❌");
-                }
-              }}
-            >
-              {saving ? "Saving..." : "Save Profile"}
-            </button>
+                    if (res.ok) {
+                      alert("Profile saved ✅");
+                      setEditing(false);
+                    } else {
+                      alert("Something went wrong ❌");
+                    }
+                  }}
+                >
+                  {saving ? "Saving..." : "Save Profile"}
+                </button>
+
+                <button
+                  className="w-full rounded-xl border border-white/15 bg-white/[0.03] py-3 font-semibold text-white hover:bg-white/[0.06]"
+                  onClick={() => setEditing(false)}
+                  disabled={saving}
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                className="mt-8 w-full rounded-xl border border-white/15 bg-white/[0.05] py-3 font-semibold text-white hover:bg-white/[0.1]"
+                onClick={() => setEditing(true)}
+              >
+                Edit Profile
+              </button>
+            )}
           </div>
         </div>
       </div>
