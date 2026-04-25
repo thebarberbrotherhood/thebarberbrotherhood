@@ -1,14 +1,20 @@
 "use client";
 
-import { UploadButton } from "@uploadthing/react";
-import type { OurFileRouter } from "../api/uploadthing/route";
+import { generateUploadButton } from "@uploadthing/react";
+import type { OurFileRouter } from "../api/uploadthing/core";
 
-export default function ImageUpload({ onUpload }: { onUpload: (url: string) => void }) {
+const UploadButton = generateUploadButton<OurFileRouter>();
+
+export default function ImageUpload({
+  onUpload,
+}: {
+  onUpload: (url: string) => void;
+}) {
   return (
-    <UploadButton<OurFileRouter, "imageUploader">
+    <UploadButton
       endpoint="imageUploader"
       onClientUploadComplete={(res) => {
-        if (res && res[0]?.url) {
+        if (res?.[0]?.url) {
           onUpload(res[0].url);
         }
       }}
