@@ -153,14 +153,28 @@ export default function MembersPage() {
             </div>
 
             {editing && (
-              <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <p className="text-sm font-semibold">Profile Photo</p>
-                <p className="mt-2 text-sm text-white/55">
-                  Upload a profile image, then click Save Profile to store it.
+              <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <p className="text-sm font-semibold text-white/80">Profile Photo</p>
+                <p className="mt-2 text-sm text-white/50">
+                  Upload a clean profile image to represent your work.
                 </p>
 
-                <div className="mt-4">
-                  <ImageUpload onUpload={(url) => setProfileImage(url)} />
+                <div className="mt-5 flex flex-col items-center gap-4">
+                  <div className="h-24 w-24 overflow-hidden rounded-full border-2 border-blue-500 shadow-[0_0_25px_rgba(37,99,235,0.25)]">
+                    <img
+                      src={profileImage || user.imageUrl}
+                      alt="Preview"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <div className="rounded-xl border border-white/15 bg-white/[0.05] px-4 py-3 text-sm text-white hover:bg-white/[0.1]">
+                    <ImageUpload onUpload={(url) => setProfileImage(url)} />
+                  </div>
+
+                  <p className="text-center text-xs text-white/40">
+                    After uploading, click Save Profile to store your new image.
+                  </p>
                 </div>
               </div>
             )}
