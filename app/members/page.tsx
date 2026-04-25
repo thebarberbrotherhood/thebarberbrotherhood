@@ -14,6 +14,7 @@ export default function MembersPage() {
   const [instagram, setInstagram] = useState("");
   const [bio, setBio] = useState("");
   const [profileImage, setProfileImage] = useState("");
+  const [isOfficial, setIsOfficial] = useState(false);
   const [saving, setSaving] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -36,6 +37,7 @@ export default function MembersPage() {
           setInstagram(data.profile.instagram || "");
           setBio(data.profile.bio || "");
           setProfileImage(data.profile.profile_image_url || "");
+          setIsOfficial(data.profile.is_official || false);
         }
       } catch (error) {
         console.error("Could not load profile", error);
@@ -79,8 +81,14 @@ export default function MembersPage() {
                 className="h-28 w-28 rounded-full border-2 border-blue-500 object-cover shadow-lg"
               />
 
-              <h2 className="mt-5 text-3xl font-bold">
+              <h2 className="mt-5 flex items-center justify-center gap-2 text-3xl font-bold">
                 {username || user.fullName || "New Member"}
+
+                {isOfficial && (
+                  <span className="rounded-full bg-blue-600 px-2.5 py-1 text-xs font-semibold text-white shadow-[0_0_20px_rgba(37,99,235,0.35)]">
+                    ✔ Official
+                  </span>
+                )}
               </h2>
 
               <p className="mt-2 text-sm text-white/60">
