@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useUser, RedirectToSignIn } from "@clerk/nextjs";
 
@@ -73,8 +74,9 @@ export default function MembersDirectory() {
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {profiles.map((profile) => (
-              <article
+              <Link
                 key={profile.id}
+                href={`/member-profile/${profile.id}`}
                 className="group rounded-3xl border border-white/10 bg-zinc-950 p-6 text-center shadow-2xl transition hover:-translate-y-1 hover:border-blue-500/70 hover:shadow-[0_0_35px_rgba(37,99,235,0.16)]"
               >
                 <div className="mx-auto h-28 w-28 overflow-hidden rounded-full border-2 border-blue-500/70 bg-black shadow-[0_0_25px_rgba(37,99,235,0.25)]">
@@ -108,13 +110,10 @@ export default function MembersDirectory() {
                   </p>
                 </div>
 
-                <button
-                  disabled
-                  className="mt-6 w-full cursor-not-allowed rounded-xl border border-white/10 bg-white/[0.04] py-3 text-sm font-semibold text-white/35"
-                >
-                  Profile View Coming Soon
-                </button>
-              </article>
+                <div className="mt-6 w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white transition group-hover:bg-blue-700">
+                  View Profile
+                </div>
+              </Link>
             ))}
           </div>
         )}
