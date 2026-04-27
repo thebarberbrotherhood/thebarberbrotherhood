@@ -71,7 +71,6 @@ export default function RootLayout({
                     Membership
                   </Link>
 
-                  {/* ADDED THIS */}
                   <Link
                     href="/brotherhood"
                     className="text-sm text-white/70 transition hover:text-white"
@@ -79,11 +78,20 @@ export default function RootLayout({
                     Brotherhood
                   </Link>
 
+                  {/* UPDATED */}
                   <Link
                     href="/members"
                     className="text-sm text-white/70 transition hover:text-white"
                   >
-                    Members
+                    My Profile
+                  </Link>
+
+                  {/* NEW */}
+                  <Link
+                    href="/members-directory"
+                    className="text-sm text-white/70 transition hover:text-white"
+                  >
+                    Directory
                   </Link>
 
                   <AuthButtons />
@@ -133,7 +141,6 @@ export default function RootLayout({
                     Membership
                   </Link>
 
-                  {/* ADDED THIS */}
                   <Link
                     href="/brotherhood"
                     className="transition hover:text-white"
@@ -141,8 +148,20 @@ export default function RootLayout({
                     Brotherhood
                   </Link>
 
-                  <Link href="/members" className="transition hover:text-white">
-                    Members Area
+                  {/* UPDATED */}
+                  <Link
+                    href="/members"
+                    className="transition hover:text-white"
+                  >
+                    My Profile
+                  </Link>
+
+                  {/* NEW */}
+                  <Link
+                    href="/members-directory"
+                    className="transition hover:text-white"
+                  >
+                    Directory
                   </Link>
                 </div>
               </div>
