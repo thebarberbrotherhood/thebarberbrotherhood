@@ -12,13 +12,23 @@ type Post = {
   product_name?: string;
   price?: string;
   company_name?: string;
+  author_name?: string;
+  author_image?: string;
   created_at: string;
+};
+
+type Profile = {
+  username?: string;
+  full_name?: string;
+  barber_shop?: string;
+  profile_image_url?: string;
 };
 
 export default function BrotherhoodFeedPage() {
   const { user } = useUser();
 
   const [posts, setPosts] = useState<Post[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [imageUrl, setImageUrl] = useState("");
   const [caption, setCaption] = useState("");
 
@@ -27,6 +37,29 @@ export default function BrotherhoodFeedPage() {
       .then((res) => res.json())
       .then(setPosts);
   }, []);
+
+  useEffect(() => {
+    async function loadProfile() {
+      if (!user?.id) return;
+
+      const res = await fetch(`/api/save-profile?clerk_user_id=${user.id}`);
+      const data = await res.json();
+
+      if (data.success && data.profile) {
+        setProfile(data.profile);
+      }
+    }
+
+    loadProfile();
+  }, [user?.id]);
+
+  const displayName =
+    profile?.username ||
+    profile?.barber_shop ||
+    profile?.full_name ||
+    "Member";
+
+  const displayImage = profile?.profile_image_url || user?.imageUrl;
 
   const handlePost = async () => {
     if (!imageUrl) return alert("Upload an image first");
@@ -39,6 +72,8 @@ export default function BrotherhoodFeedPage() {
         type: "post",
         image_url: imageUrl,
         caption,
+        author_name: displayName,
+        author_image: displayImage,
       }),
     });
 
@@ -79,7 +114,10 @@ export default function BrotherhoodFeedPage() {
           <div className="rounded-3xl border border-blue-400/20 bg-zinc-950/80 p-5 shadow-2xl shadow-blue-950/20">
             <p className="text-sm font-semibold text-white">Post to the feed</p>
             <p className="mt-1 text-xs text-white/45">
-              Upload an image, add a caption, and share it with the Brotherhood.
+              Posting as{" "}
+              <span className="font-semibold text-blue-300">
+                {displayName}
+              </span>
             </p>
 
             <div className="mt-5 rounded-2xl border border-dashed border-white/15 bg-black/60 p-4">
@@ -127,17 +165,27 @@ export default function BrotherhoodFeedPage() {
                 className="overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/90 shadow-2xl shadow-black/40"
               >
                 <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-                  <div>
-                    <p className="text-sm font-semibold">
-                      {post.type === "advert"
-                        ? post.company_name || "Partner Brand"
-                        : user?.fullName ||
-                          user?.username ||
-                          "Brotherhood Member"}
-                    </p>
-                    <p className="text-xs text-white/40">
-                      {post.type === "advert" ? "Sponsored post" : "Member post"}
-                    </p>
+                  <div className="flex items-center gap-3">
+                    {post.type !== "advert" && post.author_image && (
+                      <img
+                        src={post.author_image}
+                        alt={post.author_name || "Member"}
+                        className="h-10 w-10 rounded-full object-cover ring-1 ring-white/10"
+                      />
+                    )}
+
+                    <div>
+                      <p className="text-sm font-semibold">
+                        {post.type === "advert"
+                          ? post.company_name || "Partner Brand"
+                          : post.author_name || "Member"}
+                      </p>
+                      <p className="text-xs text-white/40">
+                        {post.type === "advert"
+                          ? "Sponsored post"
+                          : "Member post"}
+                      </p>
+                    </div>
                   </div>
 
                   {post.type === "advert" && (

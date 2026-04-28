@@ -12,11 +12,21 @@ export async function POST(req: Request) {
     product_name,
     price,
     company_name,
+    author_name,
+    author_image,
   } = body;
 
   await sql`
     INSERT INTO feed_posts (
-      user_id, type, image_url, caption, product_name, price, company_name
+      user_id,
+      type,
+      image_url,
+      caption,
+      product_name,
+      price,
+      company_name,
+      author_name,
+      author_image
     )
     VALUES (
       ${user_id},
@@ -25,7 +35,9 @@ export async function POST(req: Request) {
       ${caption},
       ${product_name},
       ${price},
-      ${company_name}
+      ${company_name},
+      ${author_name},
+      ${author_image}
     )
   `;
 
