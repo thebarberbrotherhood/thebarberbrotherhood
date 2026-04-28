@@ -14,6 +14,7 @@ export async function POST(req: Request) {
     company_name,
     author_name,
     author_image,
+    author_profile_id,
   } = body;
 
   await sql`
@@ -26,7 +27,8 @@ export async function POST(req: Request) {
       price,
       company_name,
       author_name,
-      author_image
+      author_image,
+      author_profile_id
     )
     VALUES (
       ${user_id},
@@ -37,7 +39,8 @@ export async function POST(req: Request) {
       ${price},
       ${company_name},
       ${author_name},
-      ${author_image}
+      ${author_image},
+      ${author_profile_id}
     )
   `;
 
