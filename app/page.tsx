@@ -68,6 +68,13 @@ export default function BarberBrotherhood() {
             </Link>
 
             <Link
+              href="/sign-in"
+              className="inline-flex items-center justify-center rounded-xl border border-blue-400/40 px-8 py-4 font-semibold text-blue-300 transition hover:bg-blue-500/10"
+            >
+              Sign In
+            </Link>
+
+            <Link
               href="/membership"
               className="inline-flex items-center justify-center rounded-xl border border-white/15 px-8 py-4 font-semibold text-white transition hover:bg-white/10"
             >
