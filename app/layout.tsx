@@ -57,40 +57,28 @@ export default function RootLayout({
                 </Link>
 
                 <nav className="hidden items-center gap-8 md:flex">
-                  <Link
-                    href="/"
-                    className="text-sm text-white/70 transition hover:text-white"
-                  >
+                  <Link href="/" className="text-sm text-white/70 transition hover:text-white">
                     Home
                   </Link>
 
-                  <Link
-                    href="/membership"
-                    className="text-sm text-white/70 transition hover:text-white"
-                  >
+                  <Link href="/membership" className="text-sm text-white/70 transition hover:text-white">
                     Membership
                   </Link>
 
-                  <Link
-                    href="/brotherhood"
-                    className="text-sm text-white/70 transition hover:text-white"
-                  >
+                  <Link href="/brotherhood" className="text-sm text-white/70 transition hover:text-white">
                     Brotherhood
                   </Link>
 
-                  {/* UPDATED */}
-                  <Link
-                    href="/members"
-                    className="text-sm text-white/70 transition hover:text-white"
-                  >
+                  {/* ✅ NEW FEED LINK */}
+                  <Link href="/brotherhood-feed" className="text-sm text-white/70 transition hover:text-white">
+                    Feed
+                  </Link>
+
+                  <Link href="/members" className="text-sm text-white/70 transition hover:text-white">
                     My Profile
                   </Link>
 
-                  {/* NEW */}
-                  <Link
-                    href="/members-directory"
-                    className="text-sm text-white/70 transition hover:text-white"
-                  >
+                  <Link href="/members-directory" className="text-sm text-white/70 transition hover:text-white">
                     Directory
                   </Link>
 
@@ -134,33 +122,24 @@ export default function RootLayout({
                     Home
                   </Link>
 
-                  <Link
-                    href="/membership"
-                    className="transition hover:text-white"
-                  >
+                  <Link href="/membership" className="transition hover:text-white">
                     Membership
                   </Link>
 
-                  <Link
-                    href="/brotherhood"
-                    className="transition hover:text-white"
-                  >
+                  <Link href="/brotherhood" className="transition hover:text-white">
                     Brotherhood
                   </Link>
 
-                  {/* UPDATED */}
-                  <Link
-                    href="/members"
-                    className="transition hover:text-white"
-                  >
+                  {/* ✅ NEW FEED LINK */}
+                  <Link href="/brotherhood-feed" className="transition hover:text-white">
+                    Feed
+                  </Link>
+
+                  <Link href="/members" className="transition hover:text-white">
                     My Profile
                   </Link>
 
-                  {/* NEW */}
-                  <Link
-                    href="/members-directory"
-                    className="transition hover:text-white"
-                  >
+                  <Link href="/members-directory" className="transition hover:text-white">
                     Directory
                   </Link>
                 </div>
