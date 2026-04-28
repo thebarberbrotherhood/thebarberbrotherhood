@@ -56,8 +56,14 @@ export default function BrotherhoodFeedPage() {
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [profile, setProfile] = useState<Profile | null>(null);
+
+  const [postType, setPostType] = useState<"post" | "advert">("post");
   const [imageUrl, setImageUrl] = useState("");
   const [caption, setCaption] = useState("");
+
+  const [companyName, setCompanyName] = useState("");
+  const [productName, setProductName] = useState("");
+  const [price, setPrice] = useState("");
 
   const fetchPosts = async () => {
     const res = await fetch(`/api/feed?user_id=${user?.id || ""}`);
@@ -96,21 +102,34 @@ export default function BrotherhoodFeedPage() {
     if (!imageUrl) return alert("Upload an image first");
     if (!caption.trim()) return alert("Write a caption first");
 
+    if (postType === "advert") {
+      if (!companyName.trim()) return alert("Add the company name");
+      if (!productName.trim()) return alert("Add the product name");
+      if (!price.trim()) return alert("Add the price");
+    }
+
     await fetch("/api/feed", {
       method: "POST",
       body: JSON.stringify({
         user_id: user?.id,
-        type: "post",
+        type: postType,
         image_url: imageUrl,
         caption,
-        author_name: displayName,
-        author_image: displayImage,
-        author_profile_id: profile?.id,
+        author_name: postType === "post" ? displayName : null,
+        author_image: postType === "post" ? displayImage : null,
+        author_profile_id: postType === "post" ? profile?.id : null,
+        company_name: postType === "advert" ? companyName : null,
+        product_name: postType === "advert" ? productName : null,
+        price: postType === "advert" ? price : null,
       }),
     });
 
-    setCaption("");
     setImageUrl("");
+    setCaption("");
+    setCompanyName("");
+    setProductName("");
+    setPrice("");
+    setPostType("post");
 
     await fetchPosts();
   };
@@ -158,10 +177,68 @@ export default function BrotherhoodFeedPage() {
 
           <div className="rounded-3xl border border-blue-400/20 bg-zinc-950/80 p-5 shadow-2xl shadow-blue-950/20">
             <p className="text-sm font-semibold text-white">Post to the feed</p>
-            <p className="mt-1 text-xs text-white/45">
-              Posting as{" "}
-              <span className="font-semibold text-blue-300">{displayName}</span>
+
+            <div className="mt-4 grid grid-cols-2 gap-2 rounded-2xl border border-white/10 bg-black/50 p-1">
+              <button
+                onClick={() => setPostType("post")}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+                  postType === "post"
+                    ? "bg-blue-600 text-white"
+                    : "text-white/50 hover:text-white"
+                }`}
+              >
+                Member Post
+              </button>
+
+              <button
+                onClick={() => setPostType("advert")}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+                  postType === "advert"
+                    ? "bg-blue-600 text-white"
+                    : "text-white/50 hover:text-white"
+                }`}
+              >
+                Advert
+              </button>
+            </div>
+
+            <p className="mt-3 text-xs text-white/45">
+              {postType === "post" ? (
+                <>
+                  Posting as{" "}
+                  <span className="font-semibold text-blue-300">
+                    {displayName}
+                  </span>
+                </>
+              ) : (
+                "Create a sponsored product advert for the feed."
+              )}
             </p>
+
+            {postType === "advert" && (
+              <div className="mt-5 grid gap-3">
+                <input
+                  placeholder="Company name"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  className="w-full rounded-2xl border border-white/10 bg-black/70 p-4 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-blue-400/50"
+                />
+
+                <input
+                  placeholder="Product name"
+                  value={productName}
+                  onChange={(e) => setProductName(e.target.value)}
+                  className="w-full rounded-2xl border border-white/10 bg-black/70 p-4 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-blue-400/50"
+                />
+
+                <input
+                  placeholder="Price e.g. £24.99"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  className="w-full rounded-2xl border border-white/10 bg-black/70 p-4 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-blue-400/50"
+                />
+              </div>
+            )}
 
             <div className="mt-5 rounded-2xl border border-dashed border-white/15 bg-black/60 p-4">
               <ImageUpload onUpload={(url) => setImageUrl(url)} />
@@ -176,7 +253,11 @@ export default function BrotherhoodFeedPage() {
             </div>
 
             <textarea
-              placeholder="Write a caption..."
+              placeholder={
+                postType === "advert"
+                  ? "Write the advert caption..."
+                  : "Write a caption..."
+              }
               className="mt-4 min-h-28 w-full resize-none rounded-2xl border border-white/10 bg-black/70 p-4 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-blue-400/50"
               value={caption}
               onChange={(e) => setCaption(e.target.value)}
@@ -186,7 +267,7 @@ export default function BrotherhoodFeedPage() {
               onClick={handlePost}
               className="mt-4 w-full rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-500"
             >
-              Share Post
+              {postType === "advert" ? "Publish Advert" : "Share Post"}
             </button>
           </div>
         </div>
@@ -220,7 +301,9 @@ export default function BrotherhoodFeedPage() {
                         : post.author_name || "Member"}
                     </p>
                     <p className="text-xs text-white/40">
-                      {post.type === "advert" ? "Sponsored post" : "Member post"}{" "}
+                      {post.type === "advert"
+                        ? "Sponsored post"
+                        : "Member post"}{" "}
                       • {timeAgo(post.created_at)}
                     </p>
                   </div>
