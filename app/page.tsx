@@ -59,44 +59,10 @@ export default function BarberBrotherhood() {
             stronger community, and long-term growth beyond social media.
           </p>
 
-          <div className="mt-10 w-full max-w-xl">
-            {heroSubmitted ? (
-              <div className="rounded-2xl border border-green-500/30 bg-green-500/10 px-6 py-4 text-green-300">
-                You’re on the list. We’ll keep you updated.
-              </div>
-            ) : (
-              <form onSubmit={handleInterestSubmit} className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your name"
-                  required
-                  className="rounded-xl border border-white/20 bg-black/40 px-4 py-4 text-white placeholder-white/50 outline-none transition focus:border-white/40"
-                />
-
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your email"
-                  required
-                  className="rounded-xl border border-white/20 bg-black/40 px-4 py-4 text-white placeholder-white/50 outline-none transition focus:border-white/40"
-                />
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="rounded-xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
-                >
-                  {isSubmitting ? "Sending..." : "Register Interest"}
-                </button>
-              </form>
-            )}
-          </div>
-
-          <div className="mt-5 flex flex-col gap-4 sm:flex-row">
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link
               href="/sign-up"
-              className="inline-flex items-center justify-center rounded-xl bg-white px-8 py-4 font-semibold text-black transition hover:opacity-90"
+              className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-8 py-4 font-semibold text-white transition hover:bg-blue-700"
             >
               Join Membership
             </Link>
@@ -107,6 +73,47 @@ export default function BarberBrotherhood() {
             >
               View Membership
             </Link>
+          </div>
+
+          <div className="mt-14 w-full max-w-md opacity-85">
+            <p className="mb-3 text-xs uppercase tracking-[0.25em] text-white/40">
+              Not ready to join yet?
+            </p>
+
+            {heroSubmitted ? (
+              <div className="rounded-2xl border border-green-500/30 bg-green-500/10 px-5 py-3 text-sm text-green-300">
+                You’re on the list. We’ll keep you updated.
+              </div>
+            ) : (
+              <form
+                onSubmit={handleInterestSubmit}
+                className="flex flex-col gap-2"
+              >
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  required
+                  className="rounded-xl border border-white/15 bg-black/30 px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition focus:border-white/35"
+                />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your email"
+                  required
+                  className="rounded-xl border border-white/15 bg-black/30 px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition focus:border-white/35"
+                />
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="rounded-xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/15 disabled:opacity-60"
+                >
+                  {isSubmitting ? "Sending..." : "Register Interest"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>
