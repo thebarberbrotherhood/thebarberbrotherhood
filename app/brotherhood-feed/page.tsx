@@ -16,6 +16,8 @@ type Post = {
   author_name?: string;
   author_image?: string;
   author_profile_id?: number;
+  like_count?: number;
+  liked_by_me?: boolean;
   created_at: string;
 };
 
@@ -57,11 +59,15 @@ export default function BrotherhoodFeedPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [caption, setCaption] = useState("");
 
+  const fetchPosts = async () => {
+    const res = await fetch(`/api/feed?user_id=${user?.id || ""}`);
+    const data = await res.json();
+    setPosts(data);
+  };
+
   useEffect(() => {
-    fetch("/api/feed")
-      .then((res) => res.json())
-      .then(setPosts);
-  }, []);
+    fetchPosts();
+  }, [user?.id]);
 
   useEffect(() => {
     async function loadProfile() {
@@ -106,8 +112,21 @@ export default function BrotherhoodFeedPage() {
     setCaption("");
     setImageUrl("");
 
-    const refreshed = await fetch("/api/feed").then((res) => res.json());
-    setPosts(refreshed);
+    await fetchPosts();
+  };
+
+  const handleLike = async (postId: number) => {
+    if (!user?.id) return;
+
+    await fetch("/api/feed-like", {
+      method: "POST",
+      body: JSON.stringify({
+        post_id: postId,
+        user_id: user.id,
+      }),
+    });
+
+    await fetchPosts();
   };
 
   if (!user) {
@@ -254,9 +273,25 @@ export default function BrotherhoodFeedPage() {
                       {post.caption}
                     </p>
 
-                    <div className="mt-5 flex items-center gap-3 border-t border-white/10 pt-4 text-xs text-white/35">
-                      <span>♡ Likes coming soon</span>
+                    <div className="mt-5 flex items-center gap-3 border-t border-white/10 pt-4 text-xs text-white/45">
+                      <button
+                        onClick={() => handleLike(post.id)}
+                        className={`rounded-full border px-4 py-2 text-xs font-semibold transition ${
+                          post.liked_by_me
+                            ? "border-blue-400/40 bg-blue-500/20 text-blue-300"
+                            : "border-white/10 bg-white/[0.03] text-white/55 hover:border-blue-400/40 hover:text-blue-300"
+                        }`}
+                      >
+                        {post.liked_by_me ? "♥ Liked" : "♡ Like"}
+                      </button>
+
+                      <span>
+                        {post.like_count || 0}{" "}
+                        {(post.like_count || 0) === 1 ? "like" : "likes"}
+                      </span>
+
                       <span>•</span>
+
                       <span>Comments for paid members later</span>
                     </div>
                   </div>

@@ -47,10 +47,28 @@ export async function POST(req: Request) {
   return NextResponse.json({ success: true });
 }
 
-export async function GET() {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get("user_id");
+
   const posts = await sql`
-    SELECT * FROM feed_posts
-    ORDER BY created_at DESC
+    SELECT
+      feed_posts.*,
+      COUNT(feed_likes.id)::int AS like_count,
+      CASE
+        WHEN ${userId}::text IS NULL THEN false
+        ELSE EXISTS (
+          SELECT 1
+          FROM feed_likes
+          WHERE feed_likes.post_id = feed_posts.id
+          AND feed_likes.user_id = ${userId}
+        )
+      END AS liked_by_me
+    FROM feed_posts
+    LEFT JOIN feed_likes
+      ON feed_likes.post_id = feed_posts.id
+    GROUP BY feed_posts.id
+    ORDER BY feed_posts.created_at DESC
   `;
 
   return NextResponse.json(posts);
