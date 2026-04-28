@@ -69,7 +69,6 @@ export default function RootLayout({
                     Brotherhood
                   </Link>
 
-                  {/* ✅ NEW FEED LINK */}
                   <Link href="/brotherhood-feed" className="text-sm text-white/70 transition hover:text-white">
                     Feed
                   </Link>
@@ -87,7 +86,7 @@ export default function RootLayout({
               </div>
             </header>
 
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 pb-24 md:pb-0">{children}</main>
 
             <footer className="border-t border-white/10 bg-zinc-950">
               <div className="mx-auto grid max-w-7xl gap-10 px-6 py-10 md:grid-cols-[1.2fr_0.8fr]">
@@ -130,7 +129,6 @@ export default function RootLayout({
                     Brotherhood
                   </Link>
 
-                  {/* ✅ NEW FEED LINK */}
                   <Link href="/brotherhood-feed" className="transition hover:text-white">
                     Feed
                   </Link>
@@ -149,6 +147,31 @@ export default function RootLayout({
                 © 2026 The Barber Brotherhood Ltd
               </div>
             </footer>
+
+            <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-black/95 px-4 py-3 backdrop-blur-md md:hidden">
+              <div className="mx-auto grid max-w-md grid-cols-3 gap-2 text-center text-xs font-semibold">
+                <Link
+                  href="/brotherhood-feed"
+                  className="rounded-2xl border border-blue-400/20 bg-blue-500/10 px-3 py-3 text-blue-300"
+                >
+                  Feed
+                </Link>
+
+                <Link
+                  href="/members-directory"
+                  className="rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-3 text-white/70"
+                >
+                  Directory
+                </Link>
+
+                <Link
+                  href="/members"
+                  className="rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-3 text-white/70"
+                >
+                  Profile
+                </Link>
+              </div>
+            </nav>
           </div>
         </ClerkProvider>
       </body>
